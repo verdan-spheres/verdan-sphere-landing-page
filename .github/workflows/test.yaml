@@ -28,7 +28,7 @@ jobs:
           key: ${{ github.sha }}-node-nextjs-cache
 
       - name: npm reinstall
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache-restore.outputs.cache-hit != 'true'
         run: |
           npm install
       - name: testing
