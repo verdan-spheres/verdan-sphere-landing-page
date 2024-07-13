@@ -27,10 +27,16 @@ jobs:
         uses: actions/cache@v4
         with:
           # Generate a new cache whenever packages or source files change.
-          key: ${{ github.sha }}-php-vendor-cache
+          key: ${{ github.sha }}-node-nextjs-cache
           path: |
             ~/.npm
               ${{ github.workspace }}/.next/cache
 
       - name: Build Next.js app
-        run: npm run build
+        run:
+          npm run build
+          # Step 6: Upload artifact
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./out
