@@ -9,15 +9,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the codebase
       - name: Checkout
         uses: actions/checkout@v4
 
+      #OS Level dependencies
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "22.2.0"
+
+      #application level dependencies
       - name: Install dependencies
         run: npm install
+
+      - name: Cache the dependencies
+        uses: actions/cache@v4
+        with:
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ github.sha }}-php-vendor-cache
+          path: |
+            ~/.npm
+              ${{ github.workspace }}/.next/cache
 
       - name: Build Next.js app
         run: npm run build
