@@ -37,6 +37,6 @@ jobs:
           npm run build
           # Step 6: Upload artifact
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
