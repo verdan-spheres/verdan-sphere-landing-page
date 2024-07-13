@@ -28,7 +28,7 @@ jobs:
           key: ${{ github.sha }}-node-nextjs-cache
           path: |
             ~/.npm
-              ${{ github.workspace }}/.next/cache
+              ${{ github.workspace }}/.next
 
       - name: Build Next.js app
         run:
