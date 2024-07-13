@@ -27,8 +27,9 @@ jobs:
           # Generate a new cache whenever packages or source files change.
           key: ${{ github.sha }}-node-nextjs-cache
           path: |
-            ~/.npm
-              ${{ github.workspace }}/.next
+            node_modules
+            .next/cache
+            jest.config.js
 
       - name: Build Next.js app
         run:

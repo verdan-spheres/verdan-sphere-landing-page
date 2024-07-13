@@ -23,8 +23,9 @@ jobs:
         with:
           # Generate a new cache whenever packages or source files change.
           path: |
-            ~/.npm
-            ${{ github.workspace }}/.next
+            node_modules
+            .next/cache
+             jest.config.js
           key: ${{ github.sha }}-node-nextjs-cache
 
       - name: npm reinstall
