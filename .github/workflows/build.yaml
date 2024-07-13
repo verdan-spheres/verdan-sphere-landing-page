@@ -1,4 +1,4 @@
-name: CI workflow for next
+name: Build wdorkflow
 
 #trigger
 on:

@@ -1,0 +1,36 @@
+name: Test workflow
+
+on:
+  workflow_call:
+jobs:
+  test:
+    name: test the application
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the codebase
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      #OS Level dependencies
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.2.0"
+      #Restore the cache
+      - name: restore the cahe
+        id: cache-restore
+        uses: actions/cache@v4
+        with:
+          # Generate a new cache whenever packages or source files change.
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          key: ${{ github.sha }}-node-nextjs-cache
+
+      - name: npm reinstall
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          npm install
+      - name: testing
+        run: |
+          npm  test

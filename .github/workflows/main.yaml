@@ -3,9 +3,16 @@ name: CI workflow for next
 #trigger
 on:
   push:
+  pull_request:
     branches:
+      - main
       - dev
 jobs:
   build:
     name: "Build the Next.js static Application"
     uses: ./.github/workflows/build.yaml
+
+  test:
+    needs: [build]
+    name: test the application
+    uses: ./.github/workflows/test.yaml
