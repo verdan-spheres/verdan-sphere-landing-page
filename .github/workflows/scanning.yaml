@@ -1,0 +1,29 @@
+name: Scanning Workflow
+#pass the variable and secret vlaue to the main workflow
+
+#trigger
+on:
+  #trigger
+  workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      SONAR_HOST_URL:
+        required: true
+
+jobs:
+  #id of the workflow
+  sonarcloud-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the codebase
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Disabling shallow clones is recommended for improving the relevancy of reporting
+          fetch-depth: 0
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v3.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}

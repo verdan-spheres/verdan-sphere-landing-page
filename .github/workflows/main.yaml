@@ -4,13 +4,22 @@ name: CI workflow for next
 on:
   push:
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - main
       - dev
+
 jobs:
   build:
     name: "Build the Next.js static Application"
     uses: ./.github/workflows/build.yaml
+
+  sonarcloud-analysis:
+    name: "Code scanning with SonarCloud"
+    uses: ./.github/workflows/scanning.yaml
+    secrets:
+      SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+      SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
 
   test:
     needs: [build]
