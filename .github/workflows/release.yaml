@@ -30,4 +30,4 @@ jobs:
           aws --version
       - name: uplad folder to the bucket S3
         run: |
-          aws s3 cp ./ s3://${{secrets.S3_BUCKET_NAME}} --recursive
+          aws s3 cp ./next s3://${{secrets.S3_BUCKET_NAME}} --recursive

@@ -27,6 +27,7 @@ jobs:
       SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
 
   artifact_upload:
+    needs: [build]
     name: "reusable workflow for the release"
     uses: ./.github/workflows/release.yaml
     secrets:
