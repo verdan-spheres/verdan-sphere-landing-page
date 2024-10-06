@@ -17,12 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the current branch
-        uses:
-          actions/checkout@v4
+        uses: actions/checkout@v4
 
-          # Check the contents of the workspace to verify .next exists
-      - name: List workspace contents
-        run: ls -alh
+      - name: Download .next artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build-${{ github.ref_name }}-${{ steps.timestamp.outputs.current }}
+          path: ./.next
 
       - name: aws credential configuration
         uses: aws-actions/configure-aws-credentials@v4
