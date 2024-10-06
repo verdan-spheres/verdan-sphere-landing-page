@@ -26,7 +26,7 @@ jobs:
 
           # In cahce miss case need to install node-module and also jest testing famework (globally)
       - name: npm reinstall
-        if: steps.cache-restore.outputs.cache-hit != 'true'
+        if: steps.node-cache.outputs.cache-hit != 'true'
         run: |
           npm install; npm install -g jest
 
