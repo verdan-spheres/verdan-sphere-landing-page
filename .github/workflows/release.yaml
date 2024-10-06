@@ -28,6 +28,8 @@ jobs:
       - name: check the AWS CLI
         run: |
           aws --version
+      - name: Fix permissions for .next folder
+        run: chmod -R 755 ./.next
       - name: uplad folder to the bucket S3
         run: |
           aws s3 cp ./.next s3://${{secrets.S3_BUCKET_NAME}} --recursive
