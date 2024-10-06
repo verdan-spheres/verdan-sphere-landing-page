@@ -29,15 +29,15 @@ jobs:
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: |
           npm install; npm install -g jest
+
       - name: Restore Build Artifacts
         run: |
           if [ -d build_artifacts/.next ]; then
-            mkdir -p .next
-            cp -r build_artifacts/.next .next
-          else
-            echo "Build artifacts not found. Skipping restore."
-          fi
-
+             mkdir -p .next
+             cp -r build_artifacts/.next/* .next/
+           else
+             echo "Build artifacts not found. Skipping restore."
+           fi
       - name: testing
         run: |
           npm  test

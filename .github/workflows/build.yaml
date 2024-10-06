@@ -31,4 +31,4 @@ jobs:
       - name: Save Build Artifacts
         run: |
           mkdir -p build_artifacts
-          cp -r .next build_artifacts
+          cp -r .next build_artifacts/
