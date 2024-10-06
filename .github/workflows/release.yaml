@@ -3,6 +3,13 @@ name: Upload the build artifact file
 on:
   #trigger
   workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRECT_KEY:
+        required: true
+      S3_BUCKET_NAME:
+        required: true
 
 jobs:
   artifact_upload:
