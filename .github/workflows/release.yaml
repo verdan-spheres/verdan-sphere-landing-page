@@ -1,0 +1,26 @@
+name: Upload the build artifact file
+
+on:
+  #trigger
+  workflow_call:
+
+jobs:
+  artifact_upload:
+    name: test the application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the current branch
+        uses: actions/checkout@v4
+
+      - name: aws credential configuration
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key: ${{secrets.AWS_SECRECT_KEY}}
+      - name: check the AWS CLI
+        run: |
+          aws --version
+      - name: uplad folder to the bucket S3
+        run: |
+          aws s3 cp ./ s3://${{secrets.S3_BUCKET_NAME}} --recursive

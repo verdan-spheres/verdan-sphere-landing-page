@@ -13,11 +13,19 @@ jobs:
   build:
     name: "Build the Next.js static Application"
     uses: ./.github/workflows/build.yaml
-    secrets:
-      SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
-      SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
 
   test:
     needs: [build]
     name: test the application
     uses: ./.github/workflows/test.yaml
+
+  code_scanning:
+    name: "reusable for the code scanning"
+    uses: ./.github/workflows/CodeScan.yaml
+    secrets:
+      SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+      SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
+
+  artifact_upload:
+    name: "reusable workflow for the release"
+    uses: ./.github/workflows/release.yaml
