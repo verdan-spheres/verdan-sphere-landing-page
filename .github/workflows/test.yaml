@@ -30,6 +30,12 @@ jobs:
         run: |
           npm install; npm install -g jest
 
+      - name: Cache Build Artifacts
+        uses: actions/cache@v4
+        with:
+          key: ${{ github.sha }}-node-nextjs-cache
+          path: .next
+
       - name: Restore Build Artifacts
         run: |
           if [ -d build_artifacts/.next ]; then
