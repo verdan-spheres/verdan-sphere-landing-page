@@ -19,12 +19,6 @@ jobs:
       - name: Checkout the current branch
         uses: actions/checkout@v4
 
-      - name: Download .next artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: next-build-${{ github.ref_name }}-${{ steps.timestamp.outputs.current }}
-          path: .next
-
       - name: aws credential configuration
         uses: aws-actions/configure-aws-credentials@v4
         with:
