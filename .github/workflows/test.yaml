@@ -22,8 +22,12 @@ jobs:
 
       - name: Restore Build Artifacts
         run: |
-          mkdir -p .next
-          cp -r build_artifacts/.next .next
+          if [ -d build_artifacts/.next ]; then
+            mkdir -p .next
+            cp -r build_artifacts/.next .next
+          else
+            echo "Build artifacts not found. Skipping restore."
+          fi
 
       - name: Run Tests
         run: npm test
