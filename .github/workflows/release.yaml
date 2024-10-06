@@ -17,7 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the current branch
-        uses: actions/checkout@v4
+        uses:
+          actions/checkout@v4
+
+          # Check the contents of the workspace to verify .next exists
+      - name: List workspace contents
+        run: ls -alh
 
       - name: aws credential configuration
         uses: aws-actions/configure-aws-credentials@v4
@@ -28,8 +33,6 @@ jobs:
       - name: check the AWS CLI
         run: |
           aws --version
-      - name: Fix permissions for .next folder
-        run: chmod -R 755 ./.next
       - name: uplad folder to the bucket S3
         run: |
           aws s3 cp ./.next s3://${{secrets.S3_BUCKET_NAME}} --recursive
