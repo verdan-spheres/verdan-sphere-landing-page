@@ -23,7 +23,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: next-build-${{ github.ref_name }}-${{ steps.timestamp.outputs.current }}
-          path: ./.next
+          path: .next
 
       - name: aws credential configuration
         uses: aws-actions/configure-aws-credentials@v4
