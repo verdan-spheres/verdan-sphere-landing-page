@@ -1,33 +1,38 @@
-name: Test
+name: Test workflow
 
 on:
   workflow_call:
 jobs:
   test:
+    name: test the application
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      # Checkout the codebase
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Restore Node Modules Cache
-        id: node-cache
+
+      #OS Level dependencies
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.2.0"
+
+      #Restore the cache
+      - name: restore the cahe
+        id: cache-restore
         uses: actions/cache@v4
         with:
+          path: |
+            node_modules
+            .next/cache
           key: ${{ github.sha }}-node-nextjs-cache
-          path: ~/.npm
 
-      - name: Install dependencies
-        if: steps.node-cache.outputs.cache-hit != 'true' # Only run if cache is not hit
-        run: npm install
-
-      - name: Restore Build Artifacts
+          # In cahce miss case need to install node-module and also jest testing famework (globally)
+      - name: npm reinstall
+        if: steps.cache-restore.outputs.cache-hit != 'true'
         run: |
-          if [ -d build_artifacts/.next ]; then
-            mkdir -p .next
-            cp -r build_artifacts/.next .next
-          else
-            echo "Build artifacts not found. Skipping restore."
-          fi
+          npm install; npm install -g jest
 
-      - name: Run Tests
-        run: npm test
+      - name: testing
+        run: |
+          npm  test
