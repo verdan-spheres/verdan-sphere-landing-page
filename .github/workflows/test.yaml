@@ -22,13 +22,21 @@ jobs:
         uses: actions/cache@v4
         with:
           key: ${{ github.sha }}-node-nextjs-cache
-          path: ~/.npm
+          path: node_modules
 
           # In cahce miss case need to install node-module and also jest testing famework (globally)
       - name: npm reinstall
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: |
           npm install; npm install -g jest
+      - name: Restore Build Artifacts
+        run: |
+          if [ -d build_artifacts/.next ]; then
+            mkdir -p .next
+            cp -r build_artifacts/.next .next
+          else
+            echo "Build artifacts not found. Skipping restore."
+          fi
 
       - name: testing
         run: |
