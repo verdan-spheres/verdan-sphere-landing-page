@@ -17,15 +17,12 @@ jobs:
         with:
           node-version: "22.2.0"
 
-      #Restore the cache
-      - name: restore the cahe
-        id: cache-restore
+      - name: Restore Node Modules Cache
+        id: node-cache
         uses: actions/cache@v4
         with:
-          path: |
-            node_modules
-            .next/cache
           key: ${{ github.sha }}-node-nextjs-cache
+          path: ~/.npm
 
           # In cahce miss case need to install node-module and also jest testing famework (globally)
       - name: npm reinstall
