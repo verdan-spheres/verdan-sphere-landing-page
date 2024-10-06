@@ -21,11 +21,9 @@ jobs:
         id: cache-restore
         uses: actions/cache@v4
         with:
-          # Generate a new cache whenever packages or source files change.
           path: |
             node_modules
-            .next/cache
-             jest.config.js
+            .next/**
           key: ${{ github.sha }}-node-nextjs-cache
 
           # In cahce miss case need to install node-module and also jest testing famework (globally)
