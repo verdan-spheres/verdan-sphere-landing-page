@@ -44,8 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nextjs-build
-          path: .next
+          path: .next/** # Use wildcard to ensure all files are included
           if-no-files-found: warn
           compression-level: 6
-          overwrite: false
-          include-hidden-files: false
+          include-hidden-files: true # Ensure hidden files are included
