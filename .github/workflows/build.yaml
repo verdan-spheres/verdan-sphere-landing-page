@@ -30,9 +30,22 @@ jobs:
       - name: Build Next.js project
         run: npm run build
 
+      - name: Check if .next folder exists
+        run: |
+          if [ -d ".next" ]; then
+            echo ".next folder exists."
+          else
+            echo ".next folder does not exist!"
+            exit 1
+          fi
+
         # Optionally, store build artifacts
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: nextjs-build
           path: .next
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
+          include-hidden-files: false
