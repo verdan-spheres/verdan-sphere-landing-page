@@ -16,7 +16,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22.2.0"
-
       #Restore the cache
       - name: restore the cahe
         id: cache-restore
@@ -26,19 +25,14 @@ jobs:
           path: |
             node_modules
             .next/cache
-            jest.config.js
+             jest.config.js
           key: ${{ github.sha }}-node-nextjs-cache
 
-      # In cahce miss case need to install node-module and also jest testing famework (globally)
+          # In cahce miss case need to install node-module and also jest testing famework (globally)
       - name: npm reinstall
         if: steps.cache-restore.outputs.cache-hit != 'true'
         run: |
           npm install; npm install -g jest
-
-      - name: Restore build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: nextjs-build
 
       - name: testing
         run: |
