@@ -22,9 +22,7 @@ jobs:
         uses: actions/cache@v4
         with:
           key: ${{ github.sha }}-node-nextjs-cache
-          path: |
-            ~/.npm
-             node_modules
+          path: node_modules
 
       # In cahce miss case need to install node-module and also jest testing famework (globally)
       - name: npm reinstall
