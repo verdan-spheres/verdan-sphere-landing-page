@@ -17,33 +17,26 @@ jobs:
         with:
           node-version: "22.2.0"
 
-      - name: Restore Node Modules Cache
+      - name: Node Modules Cache
         id: node-cache
         uses: actions/cache@v4
         with:
           key: ${{ github.sha }}-node-nextjs-cache
-          path: node_modules
+          path: |
+            ~/.npm
+             node_modules
 
-          # In cahce miss case need to install node-module and also jest testing famework (globally)
+      # In cahce miss case need to install node-module and also jest testing famework (globally)
       - name: npm reinstall
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: |
           npm install; npm install -g jest
 
-      - name: Cache Build Artifacts
-        uses: actions/cache@v4
+      - name: Restore build artifacts
+        uses: actions/download-artifact@v4
         with:
-          key: ${{ github.sha }}-node-nextjs-cache
-          path: .next
+          name: nextjs-build
 
-      - name: Restore Build Artifacts
-        run: |
-          if [ -d build_artifacts/.next ]; then
-             mkdir -p .next
-             cp -r build_artifacts/.next/* .next/
-           else
-             echo "Build artifacts not found. Skipping restore."
-           fi
       - name: testing
         run: |
           npm  test
