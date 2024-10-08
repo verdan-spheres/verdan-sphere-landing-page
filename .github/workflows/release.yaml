@@ -16,7 +16,7 @@ jobs:
     name: Artifacts folder upload to S3
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the current branch
+      - name: Checkout the current branch (dev)
         uses: actions/checkout@v4
 
       - name: aws credential configuration

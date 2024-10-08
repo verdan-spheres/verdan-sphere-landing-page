@@ -23,7 +23,6 @@ jobs:
           key: ${{ github.sha }}-node-nextjs-cache
           path: |
             node_modules
-            .next/cache
             jest.config.js
 
       - name: Install dependencies
@@ -40,13 +39,9 @@ jobs:
             echo ".next folder does not exist!"
             exit 1
           fi
-
-        # Optionally, store build artifacts
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+      - name: Cache the build artifacts for release
+        uses: actions/cache@v4
         with:
-          name: nextjs-build
-          path: .next/** # Use wildcard to ensure all files are included
-          if-no-files-found: warn
-          compression-level: 6
-          include-hidden-files: true # Ensure hidden files are included
+          key: ${{ github.sha }}-next-build
+          path: |
+            .next/**
