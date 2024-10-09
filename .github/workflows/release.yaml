@@ -6,7 +6,7 @@ on:
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
-      AWS_SECRECT_KEY:
+      AWS_SECRET_ACCESS_KEY:
         required: true
       S3_BUCKET_NAME:
         required: true
@@ -39,7 +39,7 @@ jobs:
         with:
           aws-region: us-east-1
           aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-          aws-secret-access-key: ${{secrets.AWS_SECRECT_KEY}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
       - name: check the AWS CLI
         run: |
           aws --version
