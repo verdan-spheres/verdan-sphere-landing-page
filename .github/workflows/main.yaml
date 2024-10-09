@@ -27,6 +27,7 @@ jobs:
       SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
 
   artifact_upload:
+    needs: [build, test]
     name: Artifacts folder upload to S3
     uses: ./.github/workflows/release.yaml
     secrets:
