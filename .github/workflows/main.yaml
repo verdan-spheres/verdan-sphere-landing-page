@@ -25,3 +25,11 @@ jobs:
     secrets:
       SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
       SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
+
+  artifact_upload:
+    name: Artifacts folder upload to S3
+    uses: ./.github/workflows/release.yaml
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+      AWS_SECRECT_KEY: ${{secrets.AWS_ACCESS_KEY_ID}}
+      S3_BUCKET_NAME: ${{secrets.AWS_SECRECT_KEY}}
