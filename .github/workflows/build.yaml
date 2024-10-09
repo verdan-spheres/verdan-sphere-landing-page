@@ -1,25 +1,20 @@
-name: Build wdorkflow
+name: Build
 
-#trigger
 on:
   workflow_call:
 jobs:
   build:
+    name: build workflow
     runs-on: ubuntu-latest
     steps:
-      # Checkout the codebase
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      #OS Level dependencies
+        #OS Level dependencies
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "22.2.0"
-
-      #application level dependencies
-      - name: Install dependencies
-        run: npm install
 
       - name: Cache the dependencies
         uses: actions/cache@v4
@@ -28,14 +23,25 @@ jobs:
           key: ${{ github.sha }}-node-nextjs-cache
           path: |
             node_modules
-            .next/cache
             jest.config.js
 
-      - name: Build Next.js app
-        run:
-          npm run build
-          # Step 6: Upload artifact
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Next.js project
+        run: npm run build
+
+      - name: Check if .next folder exists
+        run: |
+          if [ -d ".next" ]; then
+            echo ".next folder exists."
+          else
+            echo ".next folder does not exist!"
+            exit 1
+          fi
+      - name: Cache the build artifacts for release
+        uses: actions/cache@v4
         with:
-          path: .next
+          key: ${{ github.sha }}-next-build
+          path: |
+            .next/**
