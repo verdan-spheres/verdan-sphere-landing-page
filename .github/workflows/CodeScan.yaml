@@ -1,5 +1,4 @@
 name: Code Scanning with SonarQube
-
 on:
   workflow_call:
     secrets:
