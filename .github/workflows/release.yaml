@@ -43,5 +43,5 @@ jobs:
       # Step 6: Push the Docker image to Docker Hub (optional)
       - name: Push Docker image
         run: |
-          docker tag nextjs-app:multi-stage mydockerhub/nextjs-app:multi-stage
-          docker push mydockerhub/nextjs-app:multi-stage
+          docker tag nextjs-app:multi-stage ${{ secrets.DOCKER_USERNAME }}/nextjs-app:multi-stage
+          docker push ${{ secrets.DOCKER_USERNAME }}/nextjs-app:multi-stage
