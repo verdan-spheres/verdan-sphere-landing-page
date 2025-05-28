@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: smsrs-frontend
+  name: smsrs-frontend
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: smsrs-frontend
+    metadata:
+      labels:
+        app: smsrs-frontend
+    spec:
+      containers:
+        - image: nextjs-app:multi-stage
+          name: nextjs-app

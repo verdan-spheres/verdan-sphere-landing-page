@@ -4,9 +4,11 @@ name: CI workflow for next
 on:
   push:
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - main
       - dev
+
 jobs:
   build:
     name: "Build the Next.js static Application"
@@ -16,3 +18,18 @@ jobs:
     needs: [build]
     name: test the application
     uses: ./.github/workflows/test.yaml
+
+  code_scanning:
+    name: "reusable for the code scanning"
+    uses: ./.github/workflows/CodeScan.yaml
+    secrets:
+      SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+      SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
+
+  artifact_upload:
+    needs: [build, test]
+    name: Artifacts folder upload to S3
+    uses: ./.github/workflows/release.yaml
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}

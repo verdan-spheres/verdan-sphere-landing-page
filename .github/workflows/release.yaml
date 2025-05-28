@@ -1,0 +1,47 @@
+name: Upload the build artifact file
+
+on:
+  #trigger
+  workflow_call:
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+
+jobs:
+  artifact_upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      #Checkout the code
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Step 3: Build the Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t nextjs-app:multi-stage .
+
+      # Step 4: Scan the Docker image with Trivy
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: nextjs-app:multi-stage
+
+      # Step 5: Log in to Docker Hub (optional)
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 6: Push the Docker image to Docker Hub (optional)
+      - name: Push Docker image
+        run: |
+          docker tag nextjs-app:multi-stage ${{ secrets.DOCKER_USERNAME }}/nextjs-app:multi-stage
+          docker push ${{ secrets.DOCKER_USERNAME }}/nextjs-app:multi-stage
